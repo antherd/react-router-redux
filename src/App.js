@@ -1,40 +1,36 @@
-import React, { Component } from 'react'
-import {
-    BrowserRouter as Router,
-    Route,
-    Link
-} from 'react-router-dom'
-import Home from './components/home.js'
-import Page1 from './components/page1.js'
-import Page2 from './components/page2.js'
+import React from 'react';
+import {BrowserRouter, Route, Link} from 'react-router-dom';
+import * as history from 'history'
 
-import './App.css'
+import {Provider} from 'react-redux';
+import configureStore from './redux/Store';
+import Home from './containers/Home';
+import Page1 from './containers/Page1';
+import Page2 from './containers/Page2';
+import Plan from "./containers/Plan";
 
-import { createBrowserHistory } from 'history'
-const history = createBrowserHistory()
+import './App.css';
 
-class App extends Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <Router history = {history}>
-                <div className="container">
-                    <ul className="menus">
-                        <li><Link to="/">Home</Link></li>
-                        <li><Link to="/page1">Page1</Link></li>
-                        <li><Link to="/page2">Page2</Link></li>
-                    </ul>
-                    <div className="content">
-                        <Route exact path="/" component={Home}/>
-                        <Route exact path="/page1" component={Page1}/>
-                        <Route path="/page2" component={Page2}/>
-                    </div>
+const store = configureStore();
+window.store = store;
+
+export default () => (
+    <Provider store={store}>
+        <BrowserRouter history={history.createBrowserHistory()}>
+            <div className="container">
+                <ul className="menus">
+                    <li><Link to="/">Home</Link></li>
+                    <li><Link to="/page1">Page1</Link></li>
+                    <li><Link to="/page2">Page2</Link></li>
+                    <li><Link to="/plan">Plan</Link></li>
+                </ul>
+                <div className="content">
+                    <Route exact path="/" component={Home}/>
+                    <Route exact path="/page1" component={Page1}/>
+                    <Route exact path="/page2" component={Page2}/>
+                    <Route exact path="/plan" component={Plan}/>
                 </div>
-            </Router>
-        );
-    }
-}
-
-export default App;
+            </div>
+        </BrowserRouter>
+    </Provider>
+);
